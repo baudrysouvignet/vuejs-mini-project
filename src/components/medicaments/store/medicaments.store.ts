@@ -19,7 +19,7 @@ async function loadMedicaments(page = state.page) {
     const data = await getMedicaments(page);
 
     state.items = data._embedded.medicaments.map(
-      (d: any) => new Medicament(d.reference, d.nom, d.imageURL)
+      (d: any) => new Medicament(d.reference, d.nom, d.imageURL, d.quantiteParUnite)
     );
 
     state.page = data.page.number;

@@ -7,3 +7,4 @@ import Medicaments from './components/medicaments/page.vue';
   <Header></Header>
   <Medicaments></Medicaments>
 </template>
+

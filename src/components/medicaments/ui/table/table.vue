@@ -9,9 +9,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="store.state.loading">Chargement...</div>
-
-  <div v-else>
+  <div>
     <table>
       <thead>
         <tr>
@@ -22,24 +20,30 @@ onMounted(() => {
       </thead>
 
       <tbody>
+        <tr v-if="store.state.loading">
+          <td colspan="3" class="loading">Chargement</td>
+        </tr>
         <Row
+          v-else
           v-for="m in store.state.items"
           :key="m.reference"
           :reference="m.reference"
           :nom="m.nom"
           :imageURL="m.imageURL"
+          :quantiteParUnite ="m.quantiteParUnite"
         />
       </tbody>
     </table>
   </div>
   <div
-    style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px"
+    class="pagination"
   >
     <button
+      class="btn-secondary"
       @click="store.prevPage"
       :disabled="store.state.loading || store.state.page === 0"
     >
-      Page précedente
+      <span class="material-symbols-outlined">keyboard_arrow_left</span>
     </button>
 
     <span>
@@ -50,12 +54,17 @@ onMounted(() => {
     </span>
 
     <button
+      class="btn-secondary"
       @click="store.nextPage"
       :disabled="
         store.state.loading || store.state.page >= store.state.totalPages - 1
       "
     >
-      Page suivante
+      <span class="material-symbols-outlined">keyboard_arrow_right</span>
     </button>
   </div>
 </template>
+
+<style>
+@import './table.css';
+</style>

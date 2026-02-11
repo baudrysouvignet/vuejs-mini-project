@@ -1,6 +1,7 @@
 <script setup></script>
 
 <template>
+  
   <header>
     <div class="container">
       <p class="title">PharmISIS</p>
