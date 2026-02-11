@@ -1,0 +1,7 @@
+.container.medicaments {
+  margin-top: 30px;
+
+  & .subtitle {
+    max-width: 400px;
+  }
+}
