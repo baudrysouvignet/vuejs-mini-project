@@ -8,6 +8,12 @@
   --grey-400: #F9F9F9;
   --grey-300: #F2F2F2;
   --background-header: #f6f6f6;
+
+  --error-text: #AF4B4B;
+  --error:#F7EDED;
+
+  --info-text: #4976F4;
+  --info:#EDF2FE;
 }
 
 * {
@@ -57,6 +63,25 @@ button {
 
   &.btn-secondary {
     background-color: var(--grey-300);
+  }
+
+  &.btn-icon {
+    padding: 8px;
+    & * {
+      font-size: 14px;
+    }
+  }
+
+  &.btn-error,
+  &.btn-error > *  {
+    color: var(--error-text);
+    background-color: var(--error);
+  }
+
+  &.btn-info,
+  &.btn-info > *  {
+    color: var(--info-text);
+    background-color: var(--info);
   }
 
   &:disabled {

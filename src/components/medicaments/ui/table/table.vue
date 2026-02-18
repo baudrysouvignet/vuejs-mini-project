@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useMedicamentsStore } from '../../store/medicaments.store';
 import Row from './row.vue';
 
@@ -7,6 +7,17 @@ const store = useMedicamentsStore();
 onMounted(() => {
   store.loadMedicaments();
 });
+
+
+function handleChangeStock(reference, value) {
+  store.changeUnitesEnStock(reference, value);
+}
+
+function handleDelete(reference) {
+  store.deleteOneMedicament(reference);
+}
+
+
 </script>
 <template>
   <div>
@@ -15,22 +26,27 @@ onMounted(() => {
         <tr>
           <th>Reference</th>
           <th>Nom</th>
+          <th>Quantite</th>
           <th>Image</th>
+          <th>Action</th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-if="store.state.loading">
-          <td colspan="3" class="loading">Chargement</td>
+          <td colspan="5" class="loading">Chargement</td>
         </tr>
         <Row
           v-else
-          v-for="m in store.state.items"
+          v-for="m in  store.state.items"
           :key="m.reference"
           :reference="m.reference"
           :nom="m.nom"
           :imageURL="m.imageURL"
           :quantiteParUnite ="m.quantiteParUnite"
+          :unitesEnStock = m.unitesEnStock
+          @change-stock="handleChangeStock"
+          @delete="handleDelete"
         />
       </tbody>
     </table>

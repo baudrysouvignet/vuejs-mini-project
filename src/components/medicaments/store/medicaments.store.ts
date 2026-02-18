@@ -1,6 +1,6 @@
 import { reactive } from 'vue';
 
-import { getMedicaments } from '../api/medicaments.api';
+import { getMedicaments, patchMedicamentStock, deleteMedicament } from '../api/medicaments.api';
 import { Medicament } from '../model/Medicament';
 
 const state = reactive({
@@ -17,9 +17,9 @@ async function loadMedicaments(page = state.page) {
 
   try {
     const data = await getMedicaments(page);
-
+    console.log(data);
     state.items = data._embedded.medicaments.map(
-      (d: any) => new Medicament(d.reference, d.nom, d.imageURL, d.quantiteParUnite)
+      (d: any) => new Medicament(d.reference, d.nom, d.imageURL, d.quantiteParUnite, d.unitesEnStock)
     );
 
     state.page = data.page.number;
@@ -43,11 +43,47 @@ function prevPage() {
   }
 }
 
+async function changeUnitesEnStock(reference: string, newValue: number) {
+  const medicament = state.items.find(m => m.reference == reference);
+
+  if (medicament) {
+    let old = medicament.unitesEnStock
+    medicament.unitesEnStock = newValue;
+    try {
+      await patchMedicamentStock(reference, newValue);
+    } catch (e) {
+      medicament.unitesEnStock = old;
+      throw e;
+    }
+  }
+}
+
+async function deleteOneMedicament(reference) {
+  const index = state.items.findIndex(m => m.reference === reference);
+  if (index === -1) return;
+
+  const old = state.items[index];
+
+  state.items.splice(index, 1);
+  state.totalElements = Math.max(0, state.totalElements - 1);
+
+  try {
+    await deleteMedicament(reference);
+  } catch (e) {
+    state.items.splice(index, 0, old);
+    state.totalElements += 1;
+    throw e;
+  }
+}
+
+
 export function useMedicamentsStore() {
   return {
     state,
     loadMedicaments,
     prevPage,
     nextPage,
+    changeUnitesEnStock,
+    deleteOneMedicament
   };
 }
