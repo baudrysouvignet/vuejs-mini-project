@@ -12,8 +12,11 @@ const state = reactive({
   totalElements: 0,
 });
 
-async function loadMedicaments(page = state.page) {
-  state.loading = true;
+async function loadMedicaments(page = state.page, loadingIndicator = true) {
+  if (loadingIndicator) {
+    state.loading = true;
+  }
+  
 
   try {
     const data = await getMedicaments(page);
@@ -69,6 +72,7 @@ async function deleteOneMedicament(reference) {
 
   try {
     await deleteMedicament(reference);
+    await loadMedicaments(state.page, false)
   } catch (e) {
     state.items.splice(index, 0, old);
     state.totalElements += 1;

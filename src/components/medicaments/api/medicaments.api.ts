@@ -1,6 +1,8 @@
+const API_URL =  "https://springajax.herokuapp.com";
+
 export async function getMedicaments(page = 0, size = 20) {
   const res = await fetch(
-    `https://springajax.herokuapp.com/api/medicaments?page=${page}&size=${size}`
+    `${API_URL}/api/medicaments?page=${page}&size=${size}`
   );
 
   if (!res.ok) throw new Error('Failed to fetch medicaments');
@@ -11,7 +13,7 @@ export async function getMedicaments(page = 0, size = 20) {
 
 export async function patchMedicamentStock(reference, unitesEnStock) {
   const res = await fetch(
-    `https://springajax.herokuapp.com/api/medicaments/${reference}`,
+    `${API_URL}/api/medicaments/${reference}`,
     {
       method: "PATCH",
       headers: {
@@ -30,7 +32,7 @@ export async function patchMedicamentStock(reference, unitesEnStock) {
 
 export async function deleteMedicament(reference: string) {
   const res = await fetch(
-    `https://springajax.herokuapp.com/api/medicaments/${reference}`,
+    `${API_URL}/api/medicaments/${reference}`,
     { method: "DELETE" }
   );
 
