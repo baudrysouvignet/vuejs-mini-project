@@ -2,8 +2,7 @@
 import { ref } from 'vue';
 
 import Table from './ui/table/table.vue';
-import Modal from './ui/modal/sideModal.vue';
-import Form from './ui/form/form.vue';
+import FormModal from './ui/form/formModal.vue';
 
 
 const modalOpen = ref(false);
@@ -27,9 +26,7 @@ function onClickAddMedicament() {
     </div>
     <Table></Table>
 
-    <Modal :isOpen="modalOpen" @close="modalOpen = false" title="Créer un médicament">
-      <Form></Form>
-    </Modal>
+    <FormModal :isOpen="modalOpen" @close="modalOpen = false" />
   </main>
 </template>
 

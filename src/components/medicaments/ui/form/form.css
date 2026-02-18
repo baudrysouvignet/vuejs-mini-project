@@ -1,0 +1,44 @@
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 100%;
+
+
+    & .input-content {
+        display: flex;
+        gap: 10px;
+
+        & .f1 {
+            flex: 1;
+        }
+
+        & .f2 {
+            flex:2;
+        }
+    }
+
+    & .input {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        &.checkbox {
+            display: flex;
+            flex-direction: row;
+        } 
+    }
+
+    & .selection {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}

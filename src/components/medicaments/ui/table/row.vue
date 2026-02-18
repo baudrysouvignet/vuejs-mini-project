@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 
+import FormModal from '../form/formModal.vue';
+import { useMedicamentsStore } from '../../store/medicaments.store';
+const store = useMedicamentsStore();
 const props = defineProps(['reference', 'nom', 'imageURL', 'quantiteParUnite', "unitesEnStock"]);
-
 const emit = defineEmits(['change-stock', 'delete']);
+
+const medicament = store.getMedicamentByReference(props.reference)
 
 function onDelete() {
   emit('delete',props.reference);
@@ -26,6 +30,12 @@ function addStock() {
   input.value = Math.max(0, Number(input.value) + 1);
   input.dispatchEvent(new Event('change'));
 }
+
+const modalOpen = ref(false);
+
+function onClickAddMedicament() {
+  modalOpen.value = true
+}
 </script>
 <template>
   <tr>
@@ -43,9 +53,15 @@ function addStock() {
     </td>
     <td>
       <div class="action-container">
-        <button class="btn btn-secondary btn-icon btn-info"><span class="material-symbols-outlined">edit</span></button>
+        <button @click="onClickAddMedicament" class="btn btn-secondary btn-icon btn-info"><span class="material-symbols-outlined">edit</span></button>
         <button @click="onDelete" class="btn btn-secondary btn-icon btn-error"><span class="material-symbols-outlined">delete</span></button>
       </div>
     </td>
+
+    <FormModal
+      :isOpen="modalOpen"
+      :medicament="medicament"
+      @close="modalOpen = false"
+    />
   </tr>
 </template>

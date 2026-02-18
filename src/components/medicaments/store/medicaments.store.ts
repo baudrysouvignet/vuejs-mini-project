@@ -46,6 +46,11 @@ function prevPage() {
   }
 }
 
+function getMedicamentByReference(reference) {
+  return state.items.find(m => m.reference === reference) || null;
+}
+
+
 async function changeUnitesEnStock(reference: string, newValue: number) {
   const medicament = state.items.find(m => m.reference == reference);
 
@@ -88,6 +93,7 @@ export function useMedicamentsStore() {
     prevPage,
     nextPage,
     changeUnitesEnStock,
-    deleteOneMedicament
+    deleteOneMedicament,
+    getMedicamentByReference
   };
 }

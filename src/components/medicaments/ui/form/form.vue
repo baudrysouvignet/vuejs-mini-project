@@ -1,7 +1,105 @@
 <script setup>
+import { reactive, watch } from "vue";
+import { Medicament } from "../..//model/Medicament";
+
+
+const props = defineProps({
+  medicament: Object
+});
+
+const emit = defineEmits(["submit", "cancel"]);
+
+let form = reactive(new Medicament());
+watch(
+  () => props.medicament,
+  (med) => {
+    if (med) {
+      form = reactive(med.clone());
+    } else {
+      form = reactive(new Medicament());
+    }
+  },
+  { immediate: true }
+);
+
+function submit() {
+  if (props.medicament) {
+    props.medicament.apply(form);
+    emit("submit", props.medicament);
+  } else {
+    emit("submit", form);
+  }
+}
 </script>
 
 <template>
-    <h1>OK</h1>
+  <form @submit.prevent="submit" class="form-content">
+
+    <h2>Informations générale</h2>
+
+    <div class="input checkbox">
+            <input type="checkbox" v-model="form.indisponible" />
+            <label>indisponible</label>
+        </div>
+    <div class="input-content">
+        <div class="input f1">
+            <label>Reference</label>
+            <input class="form-control" v-model="form.reference" type="number" placeholder="12"/>
+        </div>
+        
+        <div class="input f2">
+            <label>Nom</label>
+            <input class="form-control" v-model="form.nom" placeholder="Nom"/>
+        </div>
+    </div>
+
+    <div class="input">
+        <label>Code fournisseur</label>
+        <input class="form-control" v-model.number="form.fournisseur" type="number" placeholder="Code fournisseur"/>
+    </div>
+    
+    <div class="separator"></div>
+
+    <h2>Gestion du stock</h2>
+    <div class="input-content">
+        <div class="input f1">
+            <label>Unité en stock</label>
+            <input class="form-control" v-model.number="form.unitesEnStock" type="number" placeholder="Unite en stock" />
+        </div>
+        <div class="input f1">
+            <label>Unité en commande</label>
+            <input class="form-control" v-model.number="form.unitesCommandees" type="number"  placeholder="Unite en commande"/>
+        </div>
+        <div class="input f1">
+            <label>Niveau de réaprvisionnemnet</label>
+            <input class="form-control" v-model.number="form.unitesCommandees" type="number"  placeholder="Unite en commande"/>
+        </div>
+        
+    </div>
+
+    <div class="input-content">
+        <div class="input f1">
+            <label>Quantite par unité</label>
+            <input class="form-control" v-model="form.quantiteParUnite" placeholder="Boîte de 8 comprimés"/>
+        </div>
+        
+        <div class="input f1">
+            <label>Prix unitaire (€)</label>
+            <input class="form-control" v-model.number="form.prixUnitaire" type="number" placeholder="Prix unitaire"/>
+        </div>
+    </div>
+    
+
+    <input class="form-control" v-model="form.imageURL" placeholder="imageURL"/>
+    
+
+    <div class="selection">
+        <button class="btn btn-primary" type="submit">Sauvegarder</button>
+        <button class="btn btn-seconsary" type="button" @click="$emit('cancel')">Annuler</button>
+    </div>
+  </form>
 </template>
-  
+
+<style>
+@import './form.css';
+</style>

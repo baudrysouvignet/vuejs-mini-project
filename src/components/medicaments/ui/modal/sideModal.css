@@ -13,12 +13,19 @@
         height: 100vh;
         width: 45%;
         background-color: white;
-
+        display: flex;
+        flex-direction: column;
+        
         & .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--grey-200);
+        }
+
+        & .modal-body {
+            flex: 1 1;
+            overflow: scroll;
         }
 
         & .modal-body, .modal-header {
