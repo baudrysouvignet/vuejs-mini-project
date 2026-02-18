@@ -2,6 +2,10 @@
 
 import Modal from '../modal/sideModal.vue'
 import Form from '../form/form.vue'
+import { useMedicamentsStore } from '../../store/medicaments.store';
+
+
+const store = useMedicamentsStore();
 
 const props = defineProps({
   isOpen: Boolean,
@@ -18,7 +22,7 @@ function close() {
 }
 
 function onSubmit(medicament) {
-  console.log("Submitted medicament:", medicament)
+  store.createOrUpdateMedicament(medicament);
   close()
 }
 

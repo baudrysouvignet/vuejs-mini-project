@@ -1,11 +1,21 @@
 <script setup>
-import { reactive, watch } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { Medicament } from "../..//model/Medicament";
+import { getCategories } from '../../../categories/api/categories.api.ts';
 
+const categories = ref([]);
 
+onMounted(async () => {
+  const data = await getCategories();
+  categories.value = data._embedded.categories;
+
+  console.log(categories.value); 
+});
 const props = defineProps({
   medicament: Object
 });
+
+//GET CATEGORIE FOR ONE ELEMNR
 
 const emit = defineEmits(["submit", "cancel"]);
 
@@ -23,12 +33,13 @@ watch(
 );
 
 function submit() {
-  if (props.medicament) {
+if (props.medicament) {
     props.medicament.apply(form);
     emit("submit", props.medicament);
   } else {
     emit("submit", form);
   }
+  
 }
 </script>
 
@@ -53,11 +64,17 @@ function submit() {
         </div>
     </div>
 
-    <div class="input">
-        <label>Code fournisseur</label>
-        <input class="form-control" v-model.number="form.fournisseur" type="number" placeholder="Code fournisseur"/>
-    </div>
-    
+    <select class="form-control" v-model.number="form.categorie">
+        <option disabled :value="null">--Choose an option--</option>
+
+        <option v-for="cat in categories" :key="cat.code" :value="cat.code">
+            {{ cat.libelle }} 
+        </option>
+    </select>
+
+
+    <input class="form-control" v-model="form.imageURL" placeholder="imageURL"/>
+
     <div class="separator"></div>
 
     <h2>Gestion du stock</h2>
@@ -90,7 +107,7 @@ function submit() {
     </div>
     
 
-    <input class="form-control" v-model="form.imageURL" placeholder="imageURL"/>
+   
     
 
     <div class="selection">

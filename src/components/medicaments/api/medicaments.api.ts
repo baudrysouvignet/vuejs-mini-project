@@ -38,3 +38,26 @@ export async function deleteMedicament(reference: string) {
 
   if (!res.ok) throw new Error("Failed to delete medicament");
 }
+
+
+export async function createMedicament(medicament: any) {
+  const res = await fetch(`${API_URL}/api/medicaments`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(medicament.toDTO()),
+  });
+
+  if (!res.ok) throw new Error("Failed to create medicament");
+  return res.json();
+}
+
+export async function updateMedicament(medicament) {
+  const res = await fetch(`${API_URL}/api/medicaments/${medicament.reference}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(medicament.toDTO()),
+  });
+
+  if (!res.ok) throw new Error("Failed to update medicament");
+  return res.json();
+}

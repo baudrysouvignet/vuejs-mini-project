@@ -10,7 +10,8 @@ export class Medicament {
     unitesCommandees = 0,
     niveauDeReappro = 0,
     indisponible = false,
-    fournisseur = null
+    fournisseur = null,
+    categorie = null
   ) {
     this._reference = reference;
     this._nom = nom;
@@ -22,6 +23,7 @@ export class Medicament {
     this._niveauDeReappro = niveauDeReappro;
     this._indisponible = indisponible;
     this._fournisseur = fournisseur;
+    this._categorie = categorie;
   }
 
   get reference() {
@@ -102,6 +104,14 @@ export class Medicament {
      this._fournisseur = v; 
   }
 
+  get categorie() {
+   return this._categorie; 
+ }
+ 
+ set categorie(c) {
+    this._categorie = c; 
+ }
+
   clone() {
     return new Medicament(
       this._reference,
@@ -113,11 +123,32 @@ export class Medicament {
       this._unitesCommandees,
       this._niveauDeReappro,
       this._indisponible,
-      this._fournisseur
+      this._fournisseur,
+      this._categorie
     );
   }
 
   apply(obj) {
     Object.assign(this, obj);
   }
+
+  toDTO(includeReference = false) {
+
+   const dto = {
+      nom: this.nom,
+      imageURL: this.imageURL,
+      quantiteParUnite: this.quantiteParUnite,
+      unitesEnStock: this.unitesEnStock,
+      prixUnitaire: this.prixUnitaire,
+      unitesCommandees: this.unitesCommandees,
+      niveauDeReappro: this.niveauDeReappro,
+      indisponible: this.indisponible,
+      fournisseur: this.fournisseur,
+      categorie: `https://springajax.herokuapp.com/api/categories/${this.categorie}`
+    };
+
+
+   if (includeReference) dto.reference = this.reference;
+   return dto;
+ }
 }

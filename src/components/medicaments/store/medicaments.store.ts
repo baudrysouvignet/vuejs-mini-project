@@ -1,6 +1,6 @@
 import { reactive } from 'vue';
 
-import { getMedicaments, patchMedicamentStock, deleteMedicament } from '../api/medicaments.api';
+import { getMedicaments, patchMedicamentStock, deleteMedicament, updateMedicament, createMedicament } from '../api/medicaments.api';
 import { Medicament } from '../model/Medicament';
 
 const state = reactive({
@@ -22,7 +22,7 @@ async function loadMedicaments(page = state.page, loadingIndicator = true) {
     const data = await getMedicaments(page);
     console.log(data);
     state.items = data._embedded.medicaments.map(
-      (d: any) => new Medicament(d.reference, d.nom, d.imageURL, d.quantiteParUnite, d.unitesEnStock)
+      (d: any) => new Medicament(d.reference, d.nom, d.imageURL, d.quantiteParUnite, d.unitesEnStock, d.prixUnitaire, d.unitesCommandees, d.niveauDeReappro, d.indisponible, d.fournisseur, d._links.categorie.href)
     );
 
     state.page = data.page.number;
@@ -85,6 +85,11 @@ async function deleteOneMedicament(reference) {
   }
 }
 
+async function createOrUpdateMedicament(medicament) {
+  await createMedicament(medicament);
+  //await updateMedicament(medicament);
+}
+
 
 export function useMedicamentsStore() {
   return {
@@ -94,6 +99,7 @@ export function useMedicamentsStore() {
     nextPage,
     changeUnitesEnStock,
     deleteOneMedicament,
-    getMedicamentByReference
+    getMedicamentByReference,
+    createOrUpdateMedicament
   };
 }
