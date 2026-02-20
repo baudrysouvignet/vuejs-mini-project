@@ -1,5 +1,6 @@
-export class Medicament {
+import { getCodeCategoriesByReference } from '../../categories/api/categories.api';
 
+export class Medicament {
   constructor(
     reference = null,
     nom = "",
@@ -11,6 +12,7 @@ export class Medicament {
     niveauDeReappro = 0,
     indisponible = false,
     fournisseur = null,
+    categorieUrl = null,
     categorie = null
   ) {
     this._reference = reference;
@@ -23,7 +25,10 @@ export class Medicament {
     this._niveauDeReappro = niveauDeReappro;
     this._indisponible = indisponible;
     this._fournisseur = fournisseur;
+    this._categorieUrl = categorieUrl;
     this._categorie = categorie;
+
+    this.loadCategorieCode()
   }
 
   get reference() {
@@ -104,13 +109,30 @@ export class Medicament {
      this._fournisseur = v; 
   }
 
-  get categorie() {
-   return this._categorie; 
- }
- 
- set categorie(c) {
-    this._categorie = c; 
- }
+  get categorieUrl() {
+   return this._categorieUrl; 
+   }
+   
+   set categorieUrl(c) {
+      this._categorieUrl = c; 
+   }
+
+   get categorie() {
+      return this._categorie;
+    }
+    
+    set categorie(c) {
+      this._categorie = c;
+    }
+    
+    async loadCategorieCode() {
+      if (this._categorie != null || this._reference == null) {
+        return;
+      }
+    
+      const data = await getCodeCategoriesByReference(this._reference);
+      this._categorie = data.code;
+    }
 
   clone() {
     return new Medicament(
@@ -124,6 +146,7 @@ export class Medicament {
       this._niveauDeReappro,
       this._indisponible,
       this._fournisseur,
+      this._categorieUrl,
       this._categorie
     );
   }

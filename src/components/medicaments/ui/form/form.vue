@@ -8,14 +8,10 @@ const categories = ref([]);
 onMounted(async () => {
   const data = await getCategories();
   categories.value = data._embedded.categories;
-
-  console.log(categories.value); 
 });
 const props = defineProps({
   medicament: Object
 });
-
-//GET CATEGORIE FOR ONE ELEMNR
 
 const emit = defineEmits(["submit", "cancel"]);
 
@@ -53,9 +49,9 @@ if (props.medicament) {
             <label>indisponible</label>
         </div>
     <div class="input-content">
-        <div class="input f1">
+        <div v-if="form.reference" class="input f1">
             <label>Reference</label>
-            <input class="form-control" v-model="form.reference" type="number" placeholder="12"/>
+            <input class="form-control read-only" v-model="form.reference" type="number" placeholder="12" readonly/>
         </div>
         
         <div class="input f2">
@@ -68,7 +64,7 @@ if (props.medicament) {
         <option disabled :value="null">--Choose an option--</option>
 
         <option v-for="cat in categories" :key="cat.code" :value="cat.code">
-            {{ cat.libelle }} 
+            {{ cat.libelle }} ({{ cat.code }})
         </option>
     </select>
 
@@ -102,13 +98,9 @@ if (props.medicament) {
         
         <div class="input f1">
             <label>Prix unitaire (€)</label>
-            <input class="form-control" v-model.number="form.prixUnitaire" type="number" placeholder="Prix unitaire"/>
+            <input class="form-control" v-model.number="form.prixUnitaire" step="0.01" type="number" placeholder="Prix unitaire"/>
         </div>
-    </div>
-    
-
-   
-    
+    </div>    
 
     <div class="selection">
         <button class="btn btn-primary" type="submit">Sauvegarder</button>

@@ -52,10 +52,12 @@ export async function createMedicament(medicament: any) {
 }
 
 export async function updateMedicament(medicament) {
+  console.log(medicament.toDTO())
   const res = await fetch(`${API_URL}/api/medicaments/${medicament.reference}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(medicament.toDTO()),
+  
   });
 
   if (!res.ok) throw new Error("Failed to update medicament");

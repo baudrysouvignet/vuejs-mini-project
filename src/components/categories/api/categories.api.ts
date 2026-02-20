@@ -9,3 +9,14 @@ export async function getCategories(size = 100000000) {
 
   return res.json();
 }
+
+
+export async function getCodeCategoriesByReference(reference) {
+  const res = await fetch(
+    `${API_URL}/api/medicaments/${reference}/categorie`
+  );
+
+  if (!res.ok) throw new Error('Impossible de recuperer la catégorie');
+
+  return res.json();
+}

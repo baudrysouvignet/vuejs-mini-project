@@ -33,7 +33,7 @@ function onSubmit(medicament) {
   <Modal
     :isOpen="isOpen"
     @close="close"
-    title="Créer un médicament"
+    title="Gérer un médicament"
   >
     <Form :medicament="medicament" @submit="onSubmit" @cancel="close"></Form>
   </Modal>

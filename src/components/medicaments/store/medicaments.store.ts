@@ -86,8 +86,11 @@ async function deleteOneMedicament(reference) {
 }
 
 async function createOrUpdateMedicament(medicament) {
+  if (medicament.reference) {
+    await updateMedicament(medicament);
+    return;
+  }
   await createMedicament(medicament);
-  //await updateMedicament(medicament);
 }
 
 
