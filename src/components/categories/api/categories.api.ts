@@ -1,4 +1,4 @@
-const API_URL =  "https://springajax.herokuapp.com";
+const API_URL =  "https://springajax.baudrysouvignet.ovh";
 
 export async function getCategories(size = 100000000) {
   const res = await fetch(

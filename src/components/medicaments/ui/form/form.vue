@@ -61,7 +61,7 @@ if (props.medicament) {
     </div>
 
     <select class="form-control" v-model.number="form.categorie">
-        <option disabled :value="null">--Choose an option--</option>
+        <option disabled :value="null">--Choisir catégorie--</option>
 
         <option v-for="cat in categories" :key="cat.code" :value="cat.code">
             {{ cat.libelle }} ({{ cat.code }})

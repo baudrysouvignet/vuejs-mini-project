@@ -167,7 +167,7 @@ export class Medicament {
       niveauDeReappro: this.niveauDeReappro,
       indisponible: this.indisponible,
       fournisseur: this.fournisseur,
-      categorie: `https://springajax.herokuapp.com/api/categories/${this.categorie}`
+      categorie: `https://springajax.baudrysouvignet.ovh/api/categories/${this.categorie}`
     };
 
 

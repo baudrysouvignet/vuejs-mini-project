@@ -1,8 +1,9 @@
-const API_URL =  "https://springajax.herokuapp.com";
+const API_URL =  "https://springajax.baudrysouvignet.ovh";
 
 export async function getMedicaments(page = 0, size = 20) {
   const res = await fetch(
-    `${API_URL}/api/medicaments?page=${page}&size=${size}`
+    `${API_URL}/api/medicaments?page=${page}&size=${size}&sort=reference,asc
+    `
   );
 
   if (!res.ok) throw new Error('Failed to fetch medicaments');
